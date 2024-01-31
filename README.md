@@ -21,3 +21,32 @@ Not a framework
 Inertia isn't a framework, nor is it a replacement for your existing server-side or client-side frameworks. Rather, it's designed to work with them. Think of Inertia as glue that connects the two. Inertia does this via adapters. We currently have three official client-side adapters (React, Vue, and Svelte) and two server-side adapters (Laravel and Rails).
 
 ----------------------------------------------------------------
+
+Video 3 (Pages)
+
+// we were rendering views in server side like this in simple laravel.
+return view('welcome');
+
+// or
+
+return View::make('welcome');
+
+// but when we use inertia and we have to render client side page then we can render it like this.
+// here we use inertia helper function
+// the name of the file will be start from capital letter
+return inertia('Welcome');
+
+// or 
+
+// like this
+// here we have to import inetrtia.
+Route::get('/', function () {
+    return Inertia::render('Home', [
+        'name' => 'Jeffrey Way',
+        'frameworks' => [
+            'Laravel', 'Vue', 'Inertia'
+        ]
+    ]);
+});
+
+----------------------------------------------------------------
