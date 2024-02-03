@@ -50,3 +50,15 @@ Route::get('/', function () {
 });
 
 ----------------------------------------------------------------
+
+
+Video 4 (Inertia Links)
+
+Inertia Link: Inertia Link is used instead of html anchor tags whcih used ajax process to load page work like spas.
+
+sleep(2);
+
+In Laravel, the sleep function is not specific to Laravel but is a part of PHP itself. The sleep function in PHP is used to pause the execution of a script for a specified number of seconds.
+
+
+----------------------------------------------------------------
