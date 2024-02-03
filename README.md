@@ -62,3 +62,36 @@ In Laravel, the sleep function is not specific to Laravel but is a part of PHP i
 
 
 ----------------------------------------------------------------
+
+Video 5 (Progress Indicators)
+
+Progress indicators
+Since Inertia requests are made via XHR, there would typically not be a browser loading indicator when navigating from one page to another. To solve this, Inertia displays a progress indicator at the top of the page whenever you make an Inertia visit.
+
+Default
+Inertia's default progress indicator is a light-weight wrapper around the NProgress library. You can customize it via the progress property of the createInertiaApp() function.
+
+createInertiaApp({
+  progress: {
+    // The delay after which the progress bar will appear, in milliseconds...
+    delay: 250,
+
+    // The color of the progress bar...
+    color: '#29d',
+
+    // Whether to include the default NProgress styles...
+    includeCSS: true,
+
+    // Whether the NProgress spinner will be shown...
+    showSpinner: false,
+  },
+  // ...
+})
+You can disable Inertia's default loading indicator by setting the progress property to false.
+
+createInertiaApp({
+  progress: false,
+  // ...
+})
+
+----------------------------------------------------------------
