@@ -30,6 +30,10 @@ Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
 
+Route::post('/logout', function () {
+    dd(request('foo'));
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

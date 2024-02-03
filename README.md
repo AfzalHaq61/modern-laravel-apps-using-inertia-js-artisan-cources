@@ -95,3 +95,14 @@ createInertiaApp({
 })
 
 ----------------------------------------------------------------
+
+Video 6 (Perform Non-GET Requests)
+
+<Link href="/logout" method="post" :data="{ foo: 'bar' }" as="button" class="text-blue-500 hover:underline">Log Out</Link>
+
+// we can use Links for post method to pass method="post"
+// but it will be still link and we can use it in another page so add as="button" then thsi link will work as a buttton.
+// we can pass data in this Link like :datta"{ foo: 'bar'}"
+
+----------------------------------------------------------------
+
