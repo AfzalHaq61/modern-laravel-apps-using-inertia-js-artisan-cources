@@ -106,3 +106,30 @@ Video 6 (Perform Non-GET Requests)
 
 ----------------------------------------------------------------
 
+Video 7 (Preserve the Scroll Position)
+
+<div style="margin-top: 800px">
+    <p>The current time is {{ time }}.</p>
+
+    <Link
+        href="/users"
+        class="text-blue-500"
+        preserve-scroll
+        >
+        Refresh
+    </Link>
+</div>
+
+// use preserve-scroll attribute to Link elements to aboid scrolling. when you click on link then it will go to the page and move the scroller to start so wen can avoid them by this way.
+
+now()
+
+// it give result in this format.
+"2024-02-04T11:58:08.423637Z"
+
+now()->toTimeString()
+
+// it give result in this format
+11:59:28
+
+----------------------------------------------------------------
