@@ -133,3 +133,44 @@ now()->toTimeString()
 11:59:28
 
 ----------------------------------------------------------------
+
+Video 8 (Active Links)
+
+// we can active links by this methods
+
+// if component from $page is equal to component
+$page.component === 'Home'
+
+// if component start name from $page is equal to component start name.
+$page.component.startWith('Home')
+
+// if url from $page is equal to url
+$page.url === 'Home'
+
+// if url start name from $page is equal to url start name.
+$page.url.startWith('/home');
+
+<NavLink href="/" :active="$page.component === 'Home'">
+    Home
+</NavLink>
+
+<template>
+    <Link
+        class="text-blue-500 hover:underline"
+        :class="{'font-bold underline': active }"
+    >
+        <slot />
+    </Link>
+</template>
+
+<script>
+    import { Link } from '@inertiajs/vue3';
+    export default {
+        components: { Link },
+        props: {
+            active: Boolean
+        }
+    };
+</script>
+
+----------------------------------------------------------------

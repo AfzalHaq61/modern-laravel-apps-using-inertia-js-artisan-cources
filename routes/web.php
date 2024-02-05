@@ -21,7 +21,6 @@ Route::get('/', function () {
 });
 
 Route::get('/users', function () {
-    return now()->toTimeString();
     return Inertia::render('Users', [
         'time' => now()->toTimeString()
     ]);
