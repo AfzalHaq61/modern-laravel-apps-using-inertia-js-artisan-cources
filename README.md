@@ -174,3 +174,20 @@ $page.url.startWith('/home');
 </script>
 
 ----------------------------------------------------------------
+
+Video 9 (Layout Files)
+
+We can finally move on to layout files. At the moment, every page must manually import and render the navigation section. But, clearly, this isn't ideal. Instead, let's extract a Layout file that can be responsible for all portions of the UI that should remain consistent as we browse from page to page.
+
+In Tailwind CSS, the list utility class is used to style HTML lists. It provides a set of predefined styles for different types of lists, such as unordered lists (<ul>) and ordered lists (<ol>). Here's an overview of how the list utility works in Tailwind:
+
+List Style Types:
+
+list-none: Removes the default list-style (bullets or numbers) from the list.
+list-disc: Adds filled circles as bullets for unordered lists (<ul>).
+list-decimal: Adds decimal numbers as bullets for ordered lists (<ol>).
+List Style Position:
+
+list-inside: Positions the list item markers (bullets or numbers) inside the list item's box.
+list-outside: Positions the list item markers outside the list item's box.
+
