@@ -191,3 +191,55 @@ List Style Position:
 list-inside: Positions the list item markers (bullets or numbers) inside the list item's box.
 list-outside: Positions the list item markers outside the list item's box.
 
+------------------------------------------------
+
+Video 10 (Shared Data "Handle Inertia Request $page props")
+
+Now that we've successfully extracted a Layout component, the next thing we need to sort out is how to share data across components. Luckily, Inertia provides a nice and friendly solution that we'll review in this episode.
+
+public function share(Request $request): array
+{
+    return [
+        ...parent::share($request),
+        'auth' => [
+            'user' => [
+                'username' => 'afzal'
+            ],
+        ],
+    ];
+}
+
+// we can define date here and use it all over project
+
+// two ways to use it in page
+// 1.template
+// 2.script
+
+// template
+<p class="text-sm ml-4">
+    Welcome Back, {{ $page.props.auth.user.username }}!
+</p>
+
+//script
+// in vue 3
+<script setup>
+import { ref, computed } from 'vue'
+import { usePage } from '@inertiajs/vue3';
+
+const page = usePage();
+
+const username = computed(() => {
+  return page.props.auth.user.username;
+});
+</script>
+
+// in vue 2
+<script>
+import Nav from "./Nav.vue";
+
+const username = computed(() => {
+  return this.$page.props.auth.user.username;
+});
+</script>
+
+----------------------------------------------------------------
