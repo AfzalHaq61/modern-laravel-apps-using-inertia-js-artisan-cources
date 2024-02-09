@@ -302,3 +302,37 @@ export default {
 </script>
 
 ----------------------------------------------------------------
+
+Video 13 (Default Layouts)
+
+Now that we have persistent layouts working, if you wish, we can next remove the need to manually import and set the Layout for every single page component.
+
+import Layout from './Layout'
+
+createInertiaApp({
+  resolve: name => {
+    const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
+    let page = pages[`./Pages/${name}.vue`]
+    page.default.layout = page.default.layout || Layout
+    return page
+  },
+  // ...
+})
+
+This will automatically set the page layout to Layout if a layout has not already been set for that page.
+
+You can even go a step further and conditionally set the default page layout based on the page name, which is available to the resolve() callback. For example, maybe you don't want the default layout to be applied to your public pages.
+
+import Layout from './Layout'
+
+createInertiaApp({
+  resolve: name => {
+    const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
+    let page = pages[`./Pages/${name}.vue`]
+    page.default.layout = name.startsWith('Public/') ? undefined : Layout
+    return page
+  },
+  // ...
+})
+
+----------------------------------------------------------------
