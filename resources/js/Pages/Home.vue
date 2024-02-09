@@ -1,14 +1,12 @@
 <template>
-    <Layout>
-      <h1 class="text-3xl">
+    <h1 class="text-3xl">
         Home
-      </h1>
-    </Layout>
-  </template>
+    </h1>
+</template>
 
-  <script>
-  import Layout from "./../Shared/Layout.vue";
-  export default {
-    components: { Layout },
-  };
-  </script>
+<script>
+import Layout from "./../Shared/Layout.vue";
+export default {
+    layout: Layout,
+};
+</script>

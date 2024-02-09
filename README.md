@@ -269,3 +269,36 @@ createInertiaApp({
 });
 
 ----------------------------------------------------------------
+
+Video 12 (Persistent Layouts)
+
+Currently, layout state is reset each time we click from page to page. This is because every page component includes the Layout as part of its template. As such, when you visit a new page, that component, including the layout, is destroyed. If you instead want state from your layouts to persist across pages - such as for a podcast that continues playing as your browse the site - we'll need to review persistent layouts.
+
+// vue 3
+<template>
+    <h1 class="text-3xl">
+    Home
+    </h1>
+</template>
+
+<script setup>
+import Layout from "./../Shared/Layout.vue";
+
+defineOptions({ layout: Layout })
+</script>
+
+// vue 2
+<template>
+    <h1 class="text-3xl">
+        Home
+    </h1>
+</template>
+
+<script>
+import Layout from "./../Shared/Layout.vue";
+export default {
+    layout: Layout,
+};
+</script>
+
+----------------------------------------------------------------
