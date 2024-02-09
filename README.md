@@ -243,3 +243,29 @@ const username = computed(() => {
 </script>
 
 ----------------------------------------------------------------
+
+Video 11 (Global Component Registration)
+
+_ component are not automatically registered globally because when pages changes all the components will be imported so unnecessary components will be imported.
+_ when imported locally then it is easy to know which component is used here and imported.
+
+_ import in app .js and register as a component.
+
+// importing here.
+import { Link } from '@inertiajs/vue3';
+
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+    setup({ el, App, props, plugin }) {
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(ZiggyVue)
+            .component("Link", Link) //register is here.
+            .mount(el);
+    },
+});
+
+----------------------------------------------------------------
