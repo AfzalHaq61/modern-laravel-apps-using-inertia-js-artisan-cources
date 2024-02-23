@@ -336,3 +336,10 @@ createInertiaApp({
 })
 
 ----------------------------------------------------------------
+
+Video 13 (Code Splitting and Dynamic Imports)
+
+I am using vite and no webpack and files are already dynamically loaded in vite and very fast then webpack.
+
+
+----------------------------------------------------------------
