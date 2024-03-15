@@ -337,9 +337,52 @@ createInertiaApp({
 
 ----------------------------------------------------------------
 
-Video 13 (Code Splitting and Dynamic Imports)
+Video 14 (Code Splitting and Dynamic Imports)
 
 I am using vite and no webpack and files are already dynamically loaded in vite and very fast then webpack.
 
 
 ----------------------------------------------------------------
+
+Video 15 (Dynamic Title and Meta Tags)
+
+// import head from inertia. register as a component globally and can make it locally. and declared by default title forward .
+
+import { Link, Head } from '@inertiajs/vue3';
+
+setup({ el, App, props, plugin }) {
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(ZiggyVue)
+            .component("Link", Link)
+            .component("Head", Head)
+            .mount(el);
+    },
+title: title => `My App - ${title}`,
+
+// here is the title function we pass the title to it and the concat string 'My App' with page dynamic title.
+
+// we can use our heead section, title or meta tags in header in lay out.
+<Head>
+    <meta
+    type="description"
+    content="Information about my app"
+    head-key="description"
+    >
+</Head>
+
+// we already have this in layout but we can override it. by again writing it. but we have must include head-key in the meta tag.
+<Head>
+    <title>Home</title>
+    <meta
+    type="description"
+    content="Home information"
+    head-key="description"
+    >
+</Head>
+
+// we can also define title as a prop.
+<Head title="users"></Head>
+
+----------------------------------------------------------------
+
