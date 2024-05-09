@@ -362,7 +362,7 @@ title: title => `My App - ${title}`,
 
 // here is the title function we pass the title to it and the concat string 'My App' with page dynamic title.
 
-// we can use our heead section, title or meta tags in header in lay out.
+// we can use our head section, title or meta tags in header in lay out.
 <Head>
     <meta
     type="description"
@@ -386,3 +386,29 @@ title: title => `My App - ${title}`,
 
 ----------------------------------------------------------------
 
+# Video 16 (An Important SPA Security Concern)
+
+In this episode, as we begin our review of how Eloquent data can be fetched and sent to the client-side, we'll need to take some time to discuss an incredibly important concern when building any SPA: data that is returned from an AJAX request is of course entirely visible to the end-user. With this in mind, you must pay special attention to ensure that you aren't accidentally exposing private information.
+
+
+# it will pass all the data which is private or not.
+Route::get('/users', function () {
+    return Inertia::render('Users', [
+        'users' => User::all();
+    ]);
+});
+
+# by mapping you can select which data you have to pass or not so that only necessary data will be passed and data which is private will be secured.
+Route::get('/users', function () {
+    return Inertia::render('Users', [
+        'users' => User::all()->map(fn($user) => [
+            'name' => $user->name
+        ])
+    ]);
+});
+
+# Collection: In Laravel, when you retrieve data from the database using Eloquent or from other sources, it's often returned as a collection. A collection is essentially an object-oriented array that provides a variety of helpful methods for manipulating the data.
+# Map Method: The map method iterates over each item in the collection and applies a callback function to it. This callback function defines how each item should be transformed.
+# Callback Function: The callback function is a piece of code that you provide as an argument to the map method. It takes each item from the collection as input and returns the transformed version of that item. This function can be defined using traditional PHP anonymous functions or arrow functions (as in your example).
+
+----------------------------------------------------------------
