@@ -412,3 +412,76 @@ Route::get('/users', function () {
 # Callback Function: The callback function is a piece of code that you provide as an argument to the map method. It takes each item from the collection as input and returns the transformed version of that item. This function can be defined using traditional PHP anonymous functions or arrow functions (as in your example).
 
 ----------------------------------------------------------------
+
+# Video 17 (Pagination)
+
+# You'll be happy to hear that Laravel makes a pagination laughably simple to implement. In this episode, we'll add a list of pagination links to the bottom of our users table.
+
+# Using Single Quotes and Concatenation:
+<Link :href="'/users/'+user.id+'/edit'" class="text-indigo-600 hover:text-indigo-900">
+    Edit
+</Link>
+
+# Using Template Literal:
+<Link :href="`/users/${user.id}/edit`" class="text-indigo-600 hover:text-indigo-900">
+    Edit
+</Link>
+
+# you can simply paginate like this.
+Route::get('/users', function () {
+    return Inertia::render('Users', [
+        'users' => User::paginate(100)
+    ]);
+});
+
+# you can paginate like this but then we map it so it make a new collection.
+Route::get('/users', function () {
+    return Inertia::render('Users', [
+        'users' => User::paginate(10)->map(fn($user) => [
+            'id' => $user->id,
+            'name' => $user->name
+        ])
+    ]);
+});
+
+# you can paginate like this but then we use through which doesn't make a new collection.
+Route::get('/users', function () {
+    return Inertia::render('Users', [
+        'users' => User::paginate(10)->through(fn($user) => [
+            'id' => $user->id,
+            'name' => $user->name
+        ])
+    ]);
+});
+
+# pagination component
+# The element itself is component it helps when the link is not empty then it will work as a link but when its not then it will work as a span.
+# v-html will render the link label if there is symbol it will convert it.
+# :class="{ 'text-gray-500': ! link.url, 'font-bold' : link.active }" style object
+# :class="link.url ? 'text-gray-500' : ''" style with ternary formatting
+<template>
+    <div>
+        <Component
+        :is="link.url ? 'Link' : 'span'"
+        v-for="link in links"
+        :href="link.url"
+        v-html="link.label"
+        class="px-1"
+        :class="{ 'text-gray-500': ! link.url, 'font-bold' : link.active }"
+        />
+    </div>
+</template>
+
+<script>
+    export default {
+        props: {
+            links: Array
+        }
+    };
+</script>
+
+# In Vue.js, <component> is a built-in component that allows you to dynamically render element based on a provided value. It's particularly useful when you need to switch between multiple elements based on certain conditions or user interactions.
+
+<Component:is="link.url ? 'Link' : 'span'"/>
+
+----------------------------------------------------------------
