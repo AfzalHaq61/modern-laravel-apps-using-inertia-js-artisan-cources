@@ -485,3 +485,72 @@ Route::get('/users', function () {
 <Component:is="link.url ? 'Link' : 'span'"/>
 
 ----------------------------------------------------------------
+
+# Video 18 (Filtering, State, and Query Strings)
+
+# Now that we have pagination working properly, let's next implement real-time search filtering. When we type into a search box, the table of users should automatically refresh to show only the users that match the given search query. Let's get to work!
+
+# watch: Allows you to watch specific reactive data and trigger a callback function when it changes. Provides more control over the watch behavior.
+
+watch(state, (newValue, oldValue) => {
+    console.log(`State changed from ${oldValue} to ${newValue}`);
+});
+
+# watchEffect: Automatically tracks reactive dependencies used inside its callback function and re-runs the function whenever any of those dependencies change. Provides a more declarative way to reactively execute code without explicitly specifying dependencies.
+
+watchEffect(() => {
+    console.log(`State is ${state.value}`);
+});
+
+<script setup>
+    import Pagination from "./../Shared/Pagination.vue";
+    import { ref, watch } from "vue";
+    import {Inertia} from "@inertiajs/inertia";
+
+    let props = defineProps({
+        users: Object,
+        filters: Object
+    });
+
+    let search = ref(props.filters.search);
+
+------------------------------------------------
+# in compositin api vue 3
+watch(search, value => {
+    Inertia.get('/users', { search: value }, {
+# preseve state will maintain current state and value when you search the value and focus will not be removed from the search input.
+        preserveState: true,
+# replace: true will directly remove the search and will move you to the previous page when click on back button because if it is false then it will remove one one word and not directly go to previous page when click on back button.
+        replace: true
+    });
+});
+
+# in option api vue 3
+watch(search, value => {
+    this.$inertia.get('/users', { search: value });
+});
+--------------------------------------------------
+</script>
+
+Route::get('/users', function () {
+    return Inertia::render('Users', [
+# query() is used when we want to initialize a new query;
+        'users' => User::query()
+# called oop conditinol searching query is like this.
+            ->when(Request::input('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+# when page is changed by pagination then search will be removed this ->witQueryString() will keep the search with page.
+            ->withQueryString()
+            ->through(fn($user) => [
+                'id' => $user->id,
+                'name' => $user->name
+            ]),
+# if someone refresh the page then there will be search parameter in query but it will not apply as a filter because the filters will not be applied because the search variable will be reset and empty. so we will pass filters as a props and will put in search varaible then it will apply as a filter.
+        'filters' => Request::only(['search'])
+    ]);
+
+});
+
+----------------------------------------------------------------
