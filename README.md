@@ -560,3 +560,21 @@ Route::get('/users', function () {
 # Processing forms With Vue, Inertia, and Laravel is a joy. It instantly feels familiar, while offering wild amounts of power and flexibility. Let's by asynchronously submitting a simple form for creating a user.
 
 ----------------------------------------------------------------
+
+# Video 20 (Display Failed Validation Messages)
+
+# In the previous episode, we got the "happy path" of our form to work properly. But what about situations where the validation checks failed? Let's conditionally render a red validation message below each input that failed the validator.
+
+# if you define errors in props.
+<div v-if="errors.name" v-text="errors.name" class="text-red-500 text-xs mt-1"></div>
+
+<script>
+    defineProps({
+        errors: Object
+    });
+</script>
+
+# if you dontt define props in script then you can directly use from $page.
+<div v-if="$page.props.errors.name" v-text="errors.name" class="text-red-500 text-xs mt-1"></div>
+
+----------------------------------------------------------------
