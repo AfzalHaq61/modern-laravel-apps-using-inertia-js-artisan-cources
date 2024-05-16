@@ -578,3 +578,45 @@ Route::get('/users', function () {
 <div v-if="$page.props.errors.name" v-text="errors.name" class="text-red-500 text-xs mt-1"></div>
 
 ----------------------------------------------------------------
+
+# Video 21 (Inertia's Form Helper)
+
+# Anyone who has ever shipped a form to production knows that users will do all sorts of weird things that you didn't expect. To demonstrate this, we'll solve the "spam click the submit button" problem by conditionally disabling the button after the first click. Then, we'll switch over to using Inertia's form helper, which makes tasks like this laughably simple.
+
+# when we use this we have a lot of default functins we can use directly like disabaled the buttton, errors, get(), update and delete etc.
+import { useForm } from '@inertiajs/inertia';
+
+# vue 3
+# here we are using useForm from inertia it is automatically reactive.
+let form = useForm({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+# vue 2
+# here we are using useForm from inertia it is automatically reactive.
+let form = this.$inertia.form({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+# here we can submit it directly like this.
+let submit = () => {
+    form.post('/users', form);
+};
+
+# without useform()
+let submit = () => {
+    Inertia.post('/users', form, {
+        onStart: () => { processing.value = true },
+        onFinish: () => { processing.value = false }
+    });
+};
+
+# here we also use form for error and disabled the button.
+<div v-if="form.errors.email" v-text="form.errors.email" class="text-red-500 text-xs mt-1"></div>
+<button :disabled="form.processing">Submit</button>
+
+----------------------------------------------------------------
