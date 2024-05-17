@@ -620,3 +620,59 @@ let submit = () => {
 <button :disabled="form.processing">Submit</button>
 
 ----------------------------------------------------------------
+
+# Video 21 (Inertia's Form Helper)
+
+# Whenever you make a network request as a response to the user typing into an input, it's essential that you implement some form of request throttling. There's no need to make dozens of instant requests to your server if you don't have to. In this episode, we'll solve this by reviewing Lodash's debounce and throttle functions and discussing the differences between the two.
+
+# how to install it.
+# command: npm install lodash --save-dev
+
+<script setup>
+    import { ref, watch } from 'vue';
+    import {Inertia} from "@inertiajs/inertia";
+    import debounce from "lodash/debounce";
+
+    let props = defineProps({
+        users: Object,
+        filters: Object,
+    });
+
+    let search = ref(props.filters.search);
+
+# debounce work in a way that when you stop typing after 300 milliseconds which you type on last will go on request.
+    watch(search, debounce(function (value) {
+        Inertia.get('/users', { search: value }, { preserveState: true, replace: true });
+    }, 300));
+</script>
+
+<script setup>
+    import { ref, watch } from 'vue';
+    import {Inertia} from "@inertiajs/inertia";
+    import throttle from "lodash/throttle";
+
+    let props = defineProps({
+        users: Object,
+        filters: Object,
+    });
+
+    let search = ref(props.filters.search);
+
+# throttle work in a way that when you are typing it will not forword tthe request after 300 milliseconds which you type on last will go on request.
+    watch(search, throttle(function (value) {
+        Inertia.get('/users', { search: value }, { preserveState: true, replace: true });
+    }, 300));
+</script>
+
+# Summary of Differences
+# Execution Timing:
+
+# Throttle: Executes the function at most once per specified time interval, regardless of how many times the event is triggered during that interval.
+# Debounce: Executes the function only after a specified period of inactivity.
+
+# Use Cases:
+
+# Throttle: Use when you need to ensure a function runs at a regular rate (e.g., handling scroll or resize events).
+# Debounce: Use when you want to wait until an event stops firing before executing a function (e.g., waiting until a user finishes typing before performing a search).
+
+----------------------------------------------------------------
