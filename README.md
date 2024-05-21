@@ -676,3 +676,29 @@ let submit = () => {
 # Debounce: Use when you want to wait until an event stops firing before executing a function (e.g., waiting until a user finishes typing before performing a search).
 
 ----------------------------------------------------------------
+
+# Video 22 (Authentication With Inertia)
+
+# Authentication with Inertia is, really, no different than performing authentication in a traditional server-side Laravel app. No tokens. No OAuth. None of that. Instead, submit the form with Inertia in the way you've already learned, and then let Laravel handle the rest. This will all feel incredibly familiar to you.
+
+# change lay out setting a litte bit if we pass the layout null or something else then it will not pick layout.
+# we have only one option for layout and it is option api we can not define layout in composition api.
+
+<script>
+export default {
+    layout: null,
+};
+</script>
+
+# will also change the app.js file to change setting of layout. it will check whether the page is not define then it will assign layout otherwise it will return no layout.
+
+resolve: name => {
+    const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
+    let page = pages[`./Pages/${name}.vue`]
+    if (page.layout === undefined) {
+        page.default.layout = page.default.layout;
+        }
+    return page
+},
+
+----------------------------------------------------------------
