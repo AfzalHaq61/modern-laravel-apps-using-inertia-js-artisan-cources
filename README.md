@@ -621,7 +621,7 @@ let submit = () => {
 
 ----------------------------------------------------------------
 
-# Video 21 (Inertia's Form Helper)
+# Video 22 (Bettter performance with Throttle)
 
 # Whenever you make a network request as a response to the user typing into an input, it's essential that you implement some form of request throttling. There's no need to make dozens of instant requests to your server if you don't have to. In this episode, we'll solve this by reviewing Lodash's debounce and throttle functions and discussing the differences between the two.
 
@@ -677,7 +677,7 @@ let submit = () => {
 
 ----------------------------------------------------------------
 
-# Video 22 (Authentication With Inertia)
+# Video 23 (Authentication With Inertia)
 
 # Authentication with Inertia is, really, no different than performing authentication in a traditional server-side Laravel app. No tokens. No OAuth. None of that. Instead, submit the form with Inertia in the way you've already learned, and then let Laravel handle the rest. This will all feel incredibly familiar to you.
 
@@ -700,5 +700,92 @@ resolve: name => {
         }
     return page
 },
+
+----------------------------------------------------------------
+
+# Video 24 (Authorization Tips)
+
+# Let's wrap up this series by discussing how you might go about handling authorization. We certainly don't want to duplicate this sort of logic for both the server-side and client-side. Instead, we can pass any relevant authorization logic from the controller, as a component prop.
+
+# simple authorization.
+
+Route::get('/users', function () {
+    return Inertia::render('Users/Index', [
+        'can' => [
+            'create' => false
+        ]
+    ]);
+});
+
+let props = defineProps({
+    can: Array,
+});
+
+<Link v-if="can.create" href="/users/create" class="text-blue-500 text-sm ml-3">New User</Link>
+
+# here the logic is only apply on to variable and pass to the view page but we also want to apply to the route so we have to duplicate it first make policy for it so we can write our own logic there and we dont need to duplicate it
+
+# command for making policy and if you need policy for some specific model
+php artisan make:policy UserPolicy --model=user
+
+# paste the logic
+class UserPolicy
+{
+    public function create(User $user)
+    {
+        return $user->email === 'admin@demo.com';
+    }
+}
+
+# now we can call create function of policy by can function our logic is already there we will just call a funciton we need
+Route::get('/users', function () {
+    return Inertia::render('Users/Index', [
+        'can' => [
+            'create' => Auth::user()->can('create', User::class)
+        ]
+    ]);
+});
+
+# we can also apply to the route by middleware pass method of policy which we need with model
+# it neceassyy because if some write this url in search then he can access it.
+# but this is traditionol method.
+Route::get('/users/create', function () {
+    return Inertia::render('Users/Create');
+})->middleware('can:create', User::class);
+
+# when you want to edit only some user not all then you we can do it like this we will apply policy on one by one user.
+Route::get('/users', function () {
+    return Inertia::render('Users/Index', [
+        'users' => User::query()
+            ->through(fn($user) => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'can' => [
+                    'edit' => Auth::user()->can('edit', $user)
+                ]
+            ]),
+    ]);
+});
+
+# here we apply our edit logic which is randomly select 1 or 0.
+class UserPolicy
+{
+    public function edit(User $user, User $model)
+    {
+        return (bool) mt_rand(0, 1);
+    }
+}
+
+# apply in view page
+<Link v-if="user.can.edit" :href="`/users/${user.id}/edit`" class="text-indigo-600 hover:text-indigo-900"> Edit</Link>
+
+# in new laravel we can use can method instead of middleware and directly pass metthtod and model into it.
+Route::get('/users/create', function () {
+    return Inertia::render('Users/Create');
+})->can('can', User::class);
+
+# shortcut for making routes using route url and page name with inertia in one line;
+Route::inertia('/', 'Home');
+Route::inertia('/settings', 'Settings');
 
 ----------------------------------------------------------------
